@@ -1,0 +1,236 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Видео платформа — адаптивно</title>
+
+<!--
+  ВАЖНО: сохраните этот файл как UTF-8 (без BOM).
+  - Убедитесь, что перед строкой <!DOCTYPE html> нет никаких символов (пробелов/новой строки/BOM).
+  - В редакторе выберите "Save with Encoding -> UTF-8" или "Convert to UTF-8 (without BOM)".
+-->
+
+<style>
+  :root{
+    --kazakh-blue: #00A3DD;
+    --button-yellow: #FFD700;
+    --card-bg: rgba(0,0,0,0.12);
+  }
+  html,body{height:100%;}
+  body{
+    margin:0;
+    font-family: Inter, Arial, sans-serif;
+    background: var(--kazakh-blue);
+    color: #fff;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding:14px 18px;
+    backdrop-filter: blur(6px);
+  }
+  .brand{font-weight:700;font-size:18px}
+
+  /* кнопка вкл звука меню */
+  .menu-sound-btn{
+    background:var(--button-yellow);
+    color:#000;
+    border:0;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:600;
+  }
+
+  .container{max-width:1200px;margin:10px auto;padding:12px}
+
+  .video-feed{
+    display:grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap:32px; /* увеличенное расстояние между видео */
+    align-items:start;
+  }
+
+  .video-card{
+    background: var(--card-bg);
+    border-radius:14px;
+    overflow:hidden;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    display:flex;flex-direction:column;
+  }
+
+  .video-placeholder{
+    background:#000;
+    height:190px;
+    display:flex;align-items:center;justify-content:center;
+    color:#ddd;font-size:15px;
+  }
+
+  .video-info{padding:12px;display:flex;gap:8px;flex-direction:column}
+  .video-title{font-size:15px;font-weight:600;color:#fff}
+  .video-sub{font-size:13px;opacity:0.85}
+
+  .open-btn{
+    background:var(--button-yellow);
+    color:#000;border:0;padding:10px;border-radius:10px;cursor:pointer;font-weight:700;
+  }
+
+  /* видео страница */
+  .video-page{display:none;padding:12px}
+  .back-row{display:flex;gap:10px;align-items:center;margin-bottom:12px}
+  .back-btn{background:var(--button-yellow);border:0;padding:8px 12px;border-radius:10px;cursor:pointer}
+  iframe, video{width:100%;height:60vh;border-radius:12px;border:0}
+  @media(max-width:600px){iframe,video{height:42vh}}
+
+  /* подсказка с ID */
+  .hint{font-size:13px;opacity:0.9}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">Видео платформа</div>
+  <div>
+    <button id="menuSoundBtn" class="menu-sound-btn">Включить звук меню</button>
+  </div>
+</header>
+
+<main class="container">
+  <div id="feed" class="video-feed">
+    <!-- Шаблон: будет клонироваться скриптом -->
+    <template id="videoTemplate">
+      <article class="video-card">
+        <div class="video-placeholder">Место для видео</div>
+        <div class="video-info">
+          <div class="video-title">Заголовок видео</div>
+          <div class="video-sub">Короткое описание • 0:00</div>
+          <button class="open-btn" data-video="" onclick="openVideo(this.dataset.video, this)">Смотреть</button>
+        </div>
+      </article>
+    </template>
+  </div>
+
+  <!-- Страница просмотра -->
+  <section id="videoPage" class="video-page">
+    <div class="back-row">
+      <button class="back-btn" onclick="closeVideo()">? Назад</button>
+      <div class="hint">Здесь будет проигрываться выбранное видео</div>
+    </div>
+    <div id="videoContainer"></div>
+  </section>
+</main>
+
+<!-- Фоновой звук орла. По умолчанию не autoplay, воспроизведение запускается по кнопке.
+     Файл eagle.mp3 поместите рядом с этим index.html -->
+<audio id="eagleSound" loop preload="auto">
+  <source src="the-eerie-scream-of-a-bird-of-prey.mp3" type="audio/mpeg">
+  <!-- fallback: браузер покажет, если не поддерживается -->
+</audio>
+
+<script>
+  const feed = document.getElementById('feed');
+  const template = document.getElementById('videoTemplate');
+  const videoPage = document.getElementById('videoPage');
+  const videoContainer = document.getElementById('videoContainer');
+  const eagleSound = document.getElementById('eagleSound');
+  const menuSoundBtn = document.getElementById('menuSoundBtn');
+
+  // Создать 25 мест под видео (можно поставить 20-30)
+  const COUNT = 25;
+  for(let i=0;i<COUNT;i++){
+    const node = template.content.cloneNode(true);
+    const btn = node.querySelector('.open-btn');
+    const title = node.querySelector('.video-title');
+    const sub = node.querySelector('.video-sub');
+    const placeholder = node.querySelector('.video-placeholder');
+
+    // Подставляем подсказку где нужно менять на свой видео ID
+    // Атрибут data-video оставить пустым — замените на нужный embed URL или путь к mp4
+    // Примеры:
+    // 1) YouTube: "https://www.youtube.com/embed/ABC123XYZ"
+    // 2) Собственный MP4: "myvideo.mp4"
+    // 3) Плеер HTML5: мы автоматически подставим iframe если строка содержит "youtube.com/embed/"
+
+    btn.dataset.video = '';
+    title.textContent = `Место для видео #${i+1}`;
+    sub.textContent = 'Описание • —';
+    placeholder.textContent = 'Замените на превью / миниатюру';
+
+    feed.appendChild(node);
+  }
+
+  // Кнопка для включения фонового звука (т.к. современные браузеры блокируют autoplay аудио)
+  menuSoundBtn.addEventListener('click', async ()=>{
+    try{
+      await eagleSound.play();
+      menuSoundBtn.style.display='none';
+    }catch(e){
+      alert('Браузер не разрешил авто-воспроизведение. Попробуйте кликнуть на страницу ещё раз.');
+    }
+  });
+
+  // Открыть видео (url может быть YouTube embed или путь к mp4)
+  function openVideo(url, btnEl){
+    // Если url пустой — выдаём подсказку
+    if(!url){
+      alert('В этом месте ещё не указан видео URL. Откройте код и впишите embed-ссылку (или путь к mp4) в data-video кнопки.');
+      return;
+    }
+
+    // Остановим фоновый звук меню
+    try{ eagleSound.pause(); }catch(e){}
+
+    // Скрыть ленту и показать страницу просмотра
+    feed.style.display='none';
+    videoPage.style.display='block';
+
+    // Решаем по типу ссылки — YouTube embed или mp4
+    if(url.includes('youtube.com/embed') || url.includes('youtu.be')){
+      // если короткая youtu.be ссылка, конвертировать в embed
+      if(url.includes('youtu.be')){
+        // преобразовать короткий формат к embed
+        const id = url.split('/').pop();
+        url = 'https://www.youtube.com/embed/' + id;
+      }
+      videoContainer.innerHTML = `<iframe src="${url}?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+    }else{
+      // считаем, что это локальный mp4
+      videoContainer.innerHTML = `
+        <video controls autoplay>
+          <source src="${url}" type="video/mp4">
+          Ваш браузер не поддерживает видео.
+        </video>
+      `;
+    }
+
+    // Прокрутка наверх для удобства
+    window.scrollTo({top:0,behavior:'smooth'});
+  }
+
+  function closeVideo(){
+    videoContainer.innerHTML = '';
+    videoPage.style.display = 'none';
+    feed.style.display = 'grid';
+    // Включаем фоновой звук (если пользователь ранее нажал кнопку — звук уже может быть play)
+    try{ eagleSound.play(); }catch(e){}
+  }
+
+  // Доп: удобная функция для быстрого массового заполнения ссылками (если хотите — можно вызвать в консоли)
+  function fillSampleYouTubeIds(ids){
+    const buttons = document.querySelectorAll('.open-btn');
+    for(let i=0;i<buttons.length && i<ids.length;i++){
+      buttons[i].dataset.video = 'https://www.youtube.com/embed/' + ids[i];
+      const title = buttons[i].closest('.video-card').querySelector('.video-title');
+      title.textContent = 'Видео — ' + (i+1);
+    }
+    alert('IDs подставлены в кнопки.');
+  }
+
+  // Экспорт в глобальную область для отладки (необязательно)
+  window.openVideo = openVideo;
+  window.closeVideo = closeVideo;
+  window.fillSampleYouTubeIds = fillSampleYouTubeIds;
+</script>
+</body>
+</html>
