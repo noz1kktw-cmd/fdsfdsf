@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Видео платформа — адаптивно</title>
+<title>Г‚ГЁГ¤ГҐГ® ГЇГ«Г ГІГґГ®Г°Г¬Г  вЂ” Г Г¤Г ГЇГІГЁГўГ­Г®</title>
 
 <!--
-  ВАЖНО: сохраните этот файл как UTF-8 (без BOM).
-  - Убедитесь, что перед строкой <!DOCTYPE html> нет никаких символов (пробелов/новой строки/BOM).
-  - В редакторе выберите "Save with Encoding -> UTF-8" или "Convert to UTF-8 (without BOM)".
+  Г‚ГЂГ†ГЌГЋ: Г±Г®ГµГ°Г Г­ГЁГІГҐ ГЅГІГ®ГІ ГґГ Г©Г« ГЄГ ГЄ UTF-8 (ГЎГҐГ§ BOM).
+  - Г“ГЎГҐГ¤ГЁГІГҐГ±Гј, Г·ГІГ® ГЇГҐГ°ГҐГ¤ Г±ГІГ°Г®ГЄГ®Г© <!DOCTYPE html> Г­ГҐГІ Г­ГЁГЄГ ГЄГЁГµ Г±ГЁГ¬ГўГ®Г«Г®Гў (ГЇГ°Г®ГЎГҐГ«Г®Гў/Г­Г®ГўГ®Г© Г±ГІГ°Г®ГЄГЁ/BOM).
+  - Г‚ Г°ГҐГ¤Г ГЄГІГ®Г°ГҐ ГўГ»ГЎГҐГ°ГЁГІГҐ "Save with Encoding -> UTF-8" ГЁГ«ГЁ "Convert to UTF-8 (without BOM)".
 -->
 
 <style>
@@ -37,7 +37,7 @@
   }
   .brand{font-weight:700;font-size:18px}
 
-  /* кнопка вкл звука меню */
+  /* ГЄГ­Г®ГЇГЄГ  ГўГЄГ« Г§ГўГіГЄГ  Г¬ГҐГ­Гѕ */
   .menu-sound-btn{
     background:var(--button-yellow);
     color:#000;
@@ -49,7 +49,7 @@
   .video-feed{
     display:grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap:32px; /* увеличенное расстояние между видео */
+    gap:32px; /* ГіГўГҐГ«ГЁГ·ГҐГ­Г­Г®ГҐ Г°Г Г±Г±ГІГ®ГїГ­ГЁГҐ Г¬ГҐГ¦Г¤Гі ГўГЁГ¤ГҐГ® */
     align-items:start;
   }
 
@@ -77,55 +77,55 @@
     color:#000;border:0;padding:10px;border-radius:10px;cursor:pointer;font-weight:700;
   }
 
-  /* видео страница */
+  /* ГўГЁГ¤ГҐГ® Г±ГІГ°Г Г­ГЁГ¶Г  */
   .video-page{display:none;padding:12px}
   .back-row{display:flex;gap:10px;align-items:center;margin-bottom:12px}
   .back-btn{background:var(--button-yellow);border:0;padding:8px 12px;border-radius:10px;cursor:pointer}
   iframe, video{width:100%;height:60vh;border-radius:12px;border:0}
   @media(max-width:600px){iframe,video{height:42vh}}
 
-  /* подсказка с ID */
+  /* ГЇГ®Г¤Г±ГЄГ Г§ГЄГ  Г± ID */
   .hint{font-size:13px;opacity:0.9}
 </style>
 </head>
 <body>
 <header>
-  <div class="brand">Видео платформа</div>
+  <div class="brand">Г‚ГЁГ¤ГҐГ® ГЇГ«Г ГІГґГ®Г°Г¬Г </div>
   <div>
-    <button id="menuSoundBtn" class="menu-sound-btn">Включить звук меню</button>
+    <button id="menuSoundBtn" class="menu-sound-btn">Г‚ГЄГ«ГѕГ·ГЁГІГј Г§ГўГіГЄ Г¬ГҐГ­Гѕ</button>
   </div>
 </header>
 
 <main class="container">
   <div id="feed" class="video-feed">
-    <!-- Шаблон: будет клонироваться скриптом -->
+    <!-- ГГ ГЎГ«Г®Г­: ГЎГіГ¤ГҐГІ ГЄГ«Г®Г­ГЁГ°Г®ГўГ ГІГјГ±Гї Г±ГЄГ°ГЁГЇГІГ®Г¬ -->
     <template id="videoTemplate">
       <article class="video-card">
-        <div class="video-placeholder">Место для видео</div>
+        <div class="video-placeholder">ГЊГҐГ±ГІГ® Г¤Г«Гї ГўГЁГ¤ГҐГ®</div>
         <div class="video-info">
-          <div class="video-title">Заголовок видео</div>
-          <div class="video-sub">Короткое описание • 0:00</div>
-          <button class="open-btn" data-video="" onclick="openVideo(this.dataset.video, this)">Смотреть</button>
+          <div class="video-title">Г‡Г ГЈГ®Г«Г®ГўГ®ГЄ ГўГЁГ¤ГҐГ®</div>
+          <div class="video-sub">ГЉГ®Г°Г®ГІГЄГ®ГҐ Г®ГЇГЁГ±Г Г­ГЁГҐ вЂў 0:00</div>
+          <button class="open-btn" data-video="" onclick="openVideo(this.dataset.video, this)">Г‘Г¬Г®ГІГ°ГҐГІГј</button>
         </div>
       </article>
     </template>
   </div>
 
-  <!-- Страница просмотра -->
+  <!-- Г‘ГІГ°Г Г­ГЁГ¶Г  ГЇГ°Г®Г±Г¬Г®ГІГ°Г  -->
   <section id="videoPage" class="video-page">
     <div class="back-row">
-      <button class="back-btn" onclick="closeVideo()">? Назад</button>
-      <div class="hint">Здесь будет проигрываться выбранное видео</div>
+      <button class="back-btn" onclick="closeVideo()">? ГЌГ Г§Г Г¤</button>
+      <div class="hint">Г‡Г¤ГҐГ±Гј ГЎГіГ¤ГҐГІ ГЇГ°Г®ГЁГЈГ°Г»ГўГ ГІГјГ±Гї ГўГ»ГЎГ°Г Г­Г­Г®ГҐ ГўГЁГ¤ГҐГ®</div>
     </div>
     <div id="videoContainer"></div>
   </section>
 </main>
 
-<!-- Фоновой звук орла. По умолчанию не autoplay, воспроизведение запускается по кнопке.
-     Файл eagle.mp3 поместите рядом с этим index.html -->
+<!-- Г”Г®Г­Г®ГўГ®Г© Г§ГўГіГЄ Г®Г°Г«Г . ГЏГ® ГіГ¬Г®Г«Г·Г Г­ГЁГѕ Г­ГҐ autoplay, ГўГ®Г±ГЇГ°Г®ГЁГ§ГўГҐГ¤ГҐГ­ГЁГҐ Г§Г ГЇГіГ±ГЄГ ГҐГІГ±Гї ГЇГ® ГЄГ­Г®ГЇГЄГҐ.
+     Г”Г Г©Г« eagle.mp3 ГЇГ®Г¬ГҐГ±ГІГЁГІГҐ Г°ГїГ¤Г®Г¬ Г± ГЅГІГЁГ¬ index.html -->
 <audio id="eagleSound" loop preload="auto">
   <source src="the-eerie-scream-of-a-bird-of-prey.mp3" type="audio/mpeg">
-  <!-- fallback: браузер покажет, если не поддерживается -->
+  <!-- fallback: ГЎГ°Г ГіГ§ГҐГ° ГЇГ®ГЄГ Г¦ГҐГІ, ГҐГ±Г«ГЁ Г­ГҐ ГЇГ®Г¤Г¤ГҐГ°Г¦ГЁГўГ ГҐГІГ±Гї -->
 </audio>
 
 <script>
@@ -136,7 +136,7 @@
   const eagleSound = document.getElementById('eagleSound');
   const menuSoundBtn = document.getElementById('menuSoundBtn');
 
-  // Создать 25 мест под видео (можно поставить 20-30)
+  // Г‘Г®Г§Г¤Г ГІГј 25 Г¬ГҐГ±ГІ ГЇГ®Г¤ ГўГЁГ¤ГҐГ® (Г¬Г®Г¦Г­Г® ГЇГ®Г±ГІГ ГўГЁГІГј 20-30)
   const COUNT = 25;
   for(let i=0;i<COUNT;i++){
     const node = template.content.cloneNode(true);
@@ -145,66 +145,66 @@
     const sub = node.querySelector('.video-sub');
     const placeholder = node.querySelector('.video-placeholder');
 
-    // Подставляем подсказку где нужно менять на свой видео ID
-    // Атрибут data-video оставить пустым — замените на нужный embed URL или путь к mp4
-    // Примеры:
+    // ГЏГ®Г¤Г±ГІГ ГўГ«ГїГҐГ¬ ГЇГ®Г¤Г±ГЄГ Г§ГЄГі ГЈГ¤ГҐ Г­ГіГ¦Г­Г® Г¬ГҐГ­ГїГІГј Г­Г  Г±ГўГ®Г© ГўГЁГ¤ГҐГ® ID
+    // ГЂГІГ°ГЁГЎГіГІ data-video Г®Г±ГІГ ГўГЁГІГј ГЇГіГ±ГІГ»Г¬ вЂ” Г§Г Г¬ГҐГ­ГЁГІГҐ Г­Г  Г­ГіГ¦Г­Г»Г© embed URL ГЁГ«ГЁ ГЇГіГІГј ГЄ mp4
+    // ГЏГ°ГЁГ¬ГҐГ°Г»:
     // 1) YouTube: "https://www.youtube.com/embed/ABC123XYZ"
-    // 2) Собственный MP4: "myvideo.mp4"
-    // 3) Плеер HTML5: мы автоматически подставим iframe если строка содержит "youtube.com/embed/"
+    // 2) Г‘Г®ГЎГ±ГІГўГҐГ­Г­Г»Г© MP4: "myvideo.mp4"
+    // 3) ГЏГ«ГҐГҐГ° HTML5: Г¬Г» Г ГўГІГ®Г¬Г ГІГЁГ·ГҐГ±ГЄГЁ ГЇГ®Г¤Г±ГІГ ГўГЁГ¬ iframe ГҐГ±Г«ГЁ Г±ГІГ°Г®ГЄГ  Г±Г®Г¤ГҐГ°Г¦ГЁГІ "youtube.com/embed/"
 
     btn.dataset.video = '';
-    title.textContent = `Место для видео #${i+1}`;
-    sub.textContent = 'Описание • —';
-    placeholder.textContent = 'Замените на превью / миниатюру';
+    title.textContent = `ГЊГҐГ±ГІГ® Г¤Г«Гї ГўГЁГ¤ГҐГ® #${i+1}`;
+    sub.textContent = 'ГЋГЇГЁГ±Г Г­ГЁГҐ вЂў вЂ”';
+    placeholder.textContent = 'Г‡Г Г¬ГҐГ­ГЁГІГҐ Г­Г  ГЇГ°ГҐГўГјГѕ / Г¬ГЁГ­ГЁГ ГІГѕГ°Гі';
 
     feed.appendChild(node);
   }
 
-  // Кнопка для включения фонового звука (т.к. современные браузеры блокируют autoplay аудио)
+  // ГЉГ­Г®ГЇГЄГ  Г¤Г«Гї ГўГЄГ«ГѕГ·ГҐГ­ГЁГї ГґГ®Г­Г®ГўГ®ГЈГ® Г§ГўГіГЄГ  (ГІ.ГЄ. Г±Г®ГўГ°ГҐГ¬ГҐГ­Г­Г»ГҐ ГЎГ°Г ГіГ§ГҐГ°Г» ГЎГ«Г®ГЄГЁГ°ГіГѕГІ autoplay Г ГіГ¤ГЁГ®)
   menuSoundBtn.addEventListener('click', async ()=>{
     try{
       await eagleSound.play();
       menuSoundBtn.style.display='none';
     }catch(e){
-      alert('Браузер не разрешил авто-воспроизведение. Попробуйте кликнуть на страницу ещё раз.');
+      alert('ГЃГ°Г ГіГ§ГҐГ° Г­ГҐ Г°Г Г§Г°ГҐГёГЁГ« Г ГўГІГ®-ГўГ®Г±ГЇГ°Г®ГЁГ§ГўГҐГ¤ГҐГ­ГЁГҐ. ГЏГ®ГЇГ°Г®ГЎГіГ©ГІГҐ ГЄГ«ГЁГЄГ­ГіГІГј Г­Г  Г±ГІГ°Г Г­ГЁГ¶Гі ГҐГ№Вё Г°Г Г§.');
     }
   });
 
-  // Открыть видео (url может быть YouTube embed или путь к mp4)
+  // ГЋГІГЄГ°Г»ГІГј ГўГЁГ¤ГҐГ® (url Г¬Г®Г¦ГҐГІ ГЎГ»ГІГј YouTube embed ГЁГ«ГЁ ГЇГіГІГј ГЄ mp4)
   function openVideo(url, btnEl){
-    // Если url пустой — выдаём подсказку
+    // Г…Г±Г«ГЁ url ГЇГіГ±ГІГ®Г© вЂ” ГўГ»Г¤Г ВёГ¬ ГЇГ®Г¤Г±ГЄГ Г§ГЄГі
     if(!url){
-      alert('В этом месте ещё не указан видео URL. Откройте код и впишите embed-ссылку (или путь к mp4) в data-video кнопки.');
+      alert('Г‚ ГЅГІГ®Г¬ Г¬ГҐГ±ГІГҐ ГҐГ№Вё Г­ГҐ ГіГЄГ Г§Г Г­ ГўГЁГ¤ГҐГ® URL. ГЋГІГЄГ°Г®Г©ГІГҐ ГЄГ®Г¤ ГЁ ГўГЇГЁГёГЁГІГҐ embed-Г±Г±Г»Г«ГЄГі (ГЁГ«ГЁ ГЇГіГІГј ГЄ mp4) Гў data-video ГЄГ­Г®ГЇГЄГЁ.');
       return;
     }
 
-    // Остановим фоновый звук меню
+    // ГЋГ±ГІГ Г­Г®ГўГЁГ¬ ГґГ®Г­Г®ГўГ»Г© Г§ГўГіГЄ Г¬ГҐГ­Гѕ
     try{ eagleSound.pause(); }catch(e){}
 
-    // Скрыть ленту и показать страницу просмотра
+    // Г‘ГЄГ°Г»ГІГј Г«ГҐГ­ГІГі ГЁ ГЇГ®ГЄГ Г§Г ГІГј Г±ГІГ°Г Г­ГЁГ¶Гі ГЇГ°Г®Г±Г¬Г®ГІГ°Г 
     feed.style.display='none';
     videoPage.style.display='block';
 
-    // Решаем по типу ссылки — YouTube embed или mp4
+    // ГђГҐГёГ ГҐГ¬ ГЇГ® ГІГЁГЇГі Г±Г±Г»Г«ГЄГЁ вЂ” YouTube embed ГЁГ«ГЁ mp4
     if(url.includes('youtube.com/embed') || url.includes('youtu.be')){
-      // если короткая youtu.be ссылка, конвертировать в embed
+      // ГҐГ±Г«ГЁ ГЄГ®Г°Г®ГІГЄГ Гї youtu.be Г±Г±Г»Г«ГЄГ , ГЄГ®Г­ГўГҐГ°ГІГЁГ°Г®ГўГ ГІГј Гў embed
       if(url.includes('youtu.be')){
-        // преобразовать короткий формат к embed
+        // ГЇГ°ГҐГ®ГЎГ°Г Г§Г®ГўГ ГІГј ГЄГ®Г°Г®ГІГЄГЁГ© ГґГ®Г°Г¬Г ГІ ГЄ embed
         const id = url.split('/').pop();
         url = 'https://www.youtube.com/embed/' + id;
       }
       videoContainer.innerHTML = `<iframe src="${url}?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
     }else{
-      // считаем, что это локальный mp4
+      // Г±Г·ГЁГІГ ГҐГ¬, Г·ГІГ® ГЅГІГ® Г«Г®ГЄГ Г«ГјГ­Г»Г© mp4
       videoContainer.innerHTML = `
         <video controls autoplay>
           <source src="${url}" type="video/mp4">
-          Ваш браузер не поддерживает видео.
+          Г‚Г Гё ГЎГ°Г ГіГ§ГҐГ° Г­ГҐ ГЇГ®Г¤Г¤ГҐГ°Г¦ГЁГўГ ГҐГІ ГўГЁГ¤ГҐГ®.
         </video>
       `;
     }
 
-    // Прокрутка наверх для удобства
+    // ГЏГ°Г®ГЄГ°ГіГІГЄГ  Г­Г ГўГҐГ°Гµ Г¤Г«Гї ГіГ¤Г®ГЎГ±ГІГўГ 
     window.scrollTo({top:0,behavior:'smooth'});
   }
 
@@ -212,22 +212,22 @@
     videoContainer.innerHTML = '';
     videoPage.style.display = 'none';
     feed.style.display = 'grid';
-    // Включаем фоновой звук (если пользователь ранее нажал кнопку — звук уже может быть play)
+    // Г‚ГЄГ«ГѕГ·Г ГҐГ¬ ГґГ®Г­Г®ГўГ®Г© Г§ГўГіГЄ (ГҐГ±Г«ГЁ ГЇГ®Г«ГјГ§Г®ГўГ ГІГҐГ«Гј Г°Г Г­ГҐГҐ Г­Г Г¦Г Г« ГЄГ­Г®ГЇГЄГі вЂ” Г§ГўГіГЄ ГіГ¦ГҐ Г¬Г®Г¦ГҐГІ ГЎГ»ГІГј play)
     try{ eagleSound.play(); }catch(e){}
   }
 
-  // Доп: удобная функция для быстрого массового заполнения ссылками (если хотите — можно вызвать в консоли)
+  // Г„Г®ГЇ: ГіГ¤Г®ГЎГ­Г Гї ГґГіГ­ГЄГ¶ГЁГї Г¤Г«Гї ГЎГ»Г±ГІГ°Г®ГЈГ® Г¬Г Г±Г±Г®ГўГ®ГЈГ® Г§Г ГЇГ®Г«Г­ГҐГ­ГЁГї Г±Г±Г»Г«ГЄГ Г¬ГЁ (ГҐГ±Г«ГЁ ГµГ®ГІГЁГІГҐ вЂ” Г¬Г®Г¦Г­Г® ГўГ»Г§ГўГ ГІГј Гў ГЄГ®Г­Г±Г®Г«ГЁ)
   function fillSampleYouTubeIds(ids){
     const buttons = document.querySelectorAll('.open-btn');
     for(let i=0;i<buttons.length && i<ids.length;i++){
       buttons[i].dataset.video = 'https://www.youtube.com/embed/' + ids[i];
       const title = buttons[i].closest('.video-card').querySelector('.video-title');
-      title.textContent = 'Видео — ' + (i+1);
+      title.textContent = 'Г‚ГЁГ¤ГҐГ® вЂ” ' + (i+1);
     }
-    alert('IDs подставлены в кнопки.');
+    alert('IDs ГЇГ®Г¤Г±ГІГ ГўГ«ГҐГ­Г» Гў ГЄГ­Г®ГЇГЄГЁ.');
   }
 
-  // Экспорт в глобальную область для отладки (необязательно)
+  // ГќГЄГ±ГЇГ®Г°ГІ Гў ГЈГ«Г®ГЎГ Г«ГјГ­ГіГѕ Г®ГЎГ«Г Г±ГІГј Г¤Г«Гї Г®ГІГ«Г Г¤ГЄГЁ (Г­ГҐГ®ГЎГїГ§Г ГІГҐГ«ГјГ­Г®)
   window.openVideo = openVideo;
   window.closeVideo = closeVideo;
   window.fillSampleYouTubeIds = fillSampleYouTubeIds;
